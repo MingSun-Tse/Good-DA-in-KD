@@ -1,3 +1,1 @@
-## R2L<br><sub>R2L: Distilling Neural Radiance Field to Neural Light Field for Efficient Novel View Synthesis (Preprint)</sub>
-
-Webpage.
+Webpage for our NeurIPS22 paper: What Makes a "Good" Data Augmentation in Knowledge Distillation -- A Statistical Perspective
