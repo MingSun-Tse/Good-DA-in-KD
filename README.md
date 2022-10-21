@@ -28,8 +28,8 @@ considerable performance gains simply by using a stronger DA with prolonged trai
 </details>
 
 <div align="center">
-    <a><img src="figs/frontpage_overview.svg"  height="250" ></a>
-    <a><img src="figs/wrn_40_2_wrn_16_2_cifar100.svg"  height="250" ></a>
+    <a><img src="figs/frontpage_overview.svg"  height="200" ></a>
+    <a><img src="figs/wrn_40_2_wrn_16_2_cifar100.svg"  height="200" ></a>
     </br>
 </div>
 
