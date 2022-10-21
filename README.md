@@ -89,17 +89,17 @@ By running that script, you should be able to reproduce our results (results may
 We plot the scatter points of student test loss (S. test loss) vs. our proposed metric (T. stddev). Per our proposition, a lower T. stddev should lead to lower S. test loss, i.e., they should pose *positive correlation*. This is verified in all of these plots -- three kinds of positive correlation coeffcients (Pearson, Spearman, Kendall) are presented with their p-values. The p-values are far below 5%, suggesting **the correlation is rather strong**.
 
 <div align="center">
-    <a><img src="figs/wrn_40_2_wrn_16_2_cifar100.svg"  height="250" ></a>
-    <a><img src="figs/resnet56_resnet20_cifar100.svg"  height="250" ></a>
+    <a><img src="figs/wrn_40_2_wrn_16_2_cifar100.svg"  height="200" ></a>
+    <a><img src="figs/resnet56_resnet20_cifar100.svg"  height="200" ></a>
     </br>
-    <a><img src="figs/vgg13_vgg8_cifar100.svg"  height="250" ></a>
-    <a><img src="figs/ResNet50_vgg8_cifar100.svg"  height="250" ></a>
+    <a><img src="figs/vgg13_vgg8_cifar100.svg"  height="200" ></a>
+    <a><img src="figs/ResNet50_vgg8_cifar100.svg"  height="200" ></a>
     </br>
-    <a><img src="figs/wrn_40_2_wrn_16_2_tinyimagenet.svg"  height="250" ></a>
-    <a><img src="figs/resnet56_resnet20_tinyimagenet.svg"  height="250" ></a>
+    <a><img src="figs/wrn_40_2_wrn_16_2_tinyimagenet.svg"  height="200" ></a>
+    <a><img src="figs/resnet56_resnet20_tinyimagenet.svg"  height="200" ></a>
     </br>
-    <a><img src="figs/vgg13_vgg8_tinyimagenet.svg"  height="250" ></a>
-    <a><img src="figs/ResNet50_vgg8_tinyimagenet.svg"  height="250" ></a>
+    <a><img src="figs/vgg13_vgg8_tinyimagenet.svg"  height="200" ></a>
+    <a><img src="figs/ResNet50_vgg8_tinyimagenet.svg"  height="200" ></a>
     </br>
 </div>
 
