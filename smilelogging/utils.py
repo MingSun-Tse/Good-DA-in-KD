@@ -1293,7 +1293,14 @@ def get_script_from_log(log_path, max_lines=10):
 def run_shell_command(cmd, inarg=None):
     r"""Run shell command and return the output (string) in a list
     """
-    result = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
+    cmd = ' '.join(cmd.split())
+    if ' | ' in cmd: # Refer to: https://stackoverflow.com/a/13332300/12554945
+        cmds = cmd.split(' | ')
+        assert len(cmds) == 2, "Only support one pipe now"
+        fn = subprocess.Popen(cmds[0].split(), stdout=subprocess.PIPE)
+        result = subprocess.run(cmds[1].split(), stdin=fn.stdout, stdout=subprocess.PIPE)
+    else:
+        result = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
     return result.stdout.decode('utf-8').strip().split('\n')
 
 def print_runtime(fn):
