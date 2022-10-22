@@ -1,6 +1,6 @@
 # Good-DA-in-KD [NeurIPS 2022]
 
-### [Project](https://mingsun-tse.github.io/Good-DA-in-KD/) | [ArXiv](https://arxiv.org/abs/2012.02909) | [PDF](https://arxiv.org/pdf/2012.02909.pdf) | [Slides](https://mingsun-tse.github.io/files/Wang_etal_NeurIPS22_Good_DA_in_KD.pdf) | [Experiment Logs](https://github.com/MingSun-Tse/Good-DA-in-KD/releases/download/v0.2)
+### [Project](https://mingsun-tse.github.io/Good-DA-in-KD/) | [ArXiv](https://arxiv.org/abs/2012.02909) | [PDF](https://arxiv.org/pdf/2012.02909.pdf) | [Slides](https://mingsun-tse.github.io/files/Wang_etal_NeurIPS22_Good_DA_in_KD.pdf) | [Experiment Logs](https://github.com/MingSun-Tse/Good-DA-in-KD/releases/tag/v0.2)
 
 <p align="center">
     <img src="https://github.com/MingSun-Tse/mingsun-tse.github.io/blob/master/files/neu_logo.svg"  height="120px" >
@@ -118,7 +118,7 @@ python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth 
 ```
 
 #### Check Our Released Experiments
-Meanwhile, note that the major results in our paper are Tabs. 3~8, where we document the T. stddev and S. test loss on 9 teacher-student pairs and 9 DA schemes. Each experiment is averaged at least 3 times. **All the logs of these experiments have been [released](https://github.com/MingSun-Tse/Good-DA-in-KD/releases/download/v0.2)** (only the log txts are released; checkpoints are omitted due to the large size. But if you want any of these checkpoints, feel free to reach out to Huan Wang at wang.huan@northeastern.edu).
+Meanwhile, note that the major results in our paper are Tabs. 3~8, where we document the T. stddev and S. test loss on 9 teacher-student pairs and 9 DA schemes. Each experiment is averaged at least 3 times. **All the logs of these experiments have been [released](https://github.com/MingSun-Tse/Good-DA-in-KD/releases/tag/v0.2)** (only the log txts are released; checkpoints are omitted due to the large size. But if you want any of these checkpoints, feel free to reach out to Huan Wang at wang.huan@northeastern.edu).
 
 We use [smilelogging](https://github.com/MingSun-Tse/smilelogging) for logging. Each experiment is binded with a unique experiment ID and folder. The easist way to reproduce any experiment is to check the `log.txt` in that experiment folder. Its path is `<experiment_folder>/log/log.txt`. At the head of the `log.txt`, we document the script of that experiment, e.g.,
 ```
