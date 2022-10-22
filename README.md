@@ -1,17 +1,18 @@
 # Good-DA-in-KD
+
 ### [Project](https://mingsun-tse.github.io/Good-DA-in-KD/) | [ArXiv](https://arxiv.org/abs/2012.02909) | [PDF](https://arxiv.org/pdf/2012.02909.pdf) | [Slides](https://mingsun-tse.github.io/files/Wang_etal_NeurIPS22_Good_DA_in_KD.pdf)
 
-<div align="center">
-    <a><img src="figs/neu_logo.svg"  height="120px" ></a>
-    &nbsp
-    <a><img src="figs/merl_logo.svg"  height="120px" ></a>
-</div>
+<p align="center">
+    <img src="https://github.com/MingSun-Tse/mingsun-tse.github.io/blob/master/files/neu_logo.svg"  height="120px" >
+    <img src="https://github.com/MingSun-Tse/mingsun-tse.github.io/blob/master/files/merl_logo.svg"  height="120px" >
+</p>
 
 This repository is for our NeurIPS 2022 paper:
 > **[What Makes a "Good" Data Augmentation in Knowledge Distillation -- A Statistical Perspective](https://mingsun-tse.github.io/Good-DA-in-KD/)** \
-> [Huan Wang](http://huanwang.tech/)<sup>1,2</sup>, [Suhas Lohit](https://suhaslohit.github.io/)<sup>2</sup>, [Michael Jones](https://www.merl.com/people/mjones)<sup>2</sup>, [Yun Fu](http://www1.ece.neu.edu/~yunfu/)<sup>1</sup> \
-> <sup>1</sup>Northeastern University <sup>2</sup>MERL \
-> Work done when Huan was an intern at MERL.
+> [Huan Wang](http://huanwang.tech/)<sup>1,2,†</sup>, [Suhas Lohit](https://suhaslohit.github.io/)<sup>2,∗</sup>, [Mike Jones](https://www.merl.com/people/mjones)<sup>2</sup>, [Yun Fu](http://www1.ece.neu.edu/~yunfu/)<sup>1</sup> \
+> <sup>1</sup>Northeastern University, Boston, MA <sup>2</sup>MERL, Cambridge, MA \
+> <sup>†</sup>Work done when Huan was an intern at MERL \
+> <sup>∗</sup>Corresponding author: slohit@merl.com
 
 
 <details open>
@@ -39,10 +40,10 @@ considerable performance gains simply by using a stronger DA with prolonged trai
 * [x] Identity
 * [x] Flip
 * [x] Flip+Crop
-* [x] Cutout
-* [x] AutoAugment
-* [x] Mixup
-* [x] CutMix
+* [x] [Cutout](https://arxiv.org/abs/1708.04552)
+* [x] [AutoAugment](https://arxiv.org/abs/1805.09501) (CVPR'19)
+* [x] [Mixup](https://arxiv.org/abs/1710.09412) (ICLR'18)
+* [x] [CutMix](https://openaccess.thecvf.com/content_ICCV_2019/html/Yun_CutMix_Regularization_Strategy_to_Train_Strong_Classifiers_With_Localizable_Features_ICCV_2019_paper.html) (ICCV'19)
 * [x] CutMixPick (S. ent.) (ours)
 * [x] CutMixPick (T. ent.) (ours)
 
@@ -57,7 +58,7 @@ git clone git@mingsun-tse.com/Good-DA-in-KD.git
 cd Good-DA-in-KD
 ```
 
-### 1. Download pretrained model (CIFAR100/Tiny ImageNet/ImageNet100)
+### 1. Download pretrained model (CIFAR100/Tiny ImageNet)
 ```bash
 sh scripts/set_up_pretrained_models.sh
 ```
@@ -68,14 +69,58 @@ sh scripts/set_up_env.sh
 ```
 
 ### 3. Run
-Here we give the example with vgg13/vgg8 pair on CIFAR100. See `scripts/` for the complete scripts.
+Below we give an example with vgg13/vgg8 pair on CIFAR100. Please refer to 
+- `scripts/S_test_loss_different_DA_cifar100.sh`
+- `scripts/S_test_loss_different_DA_tinyimagenet.sh`
+- `scripts/T_stddev_different_DA_cifar100.sh`
+- `scripts/T_stddev_different_DA_tinyimagenet.sh` 
+
+for the complete scripts for all pairs on CIFAR100 and Tiny ImageNet.
+
 ```bash
-# 
+# (1) Get the S. test loss with KD + different DA's
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --mix_mode identity --project kd__vgg13vgg8__cifar100__identity 
 
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --mix_mode flip --project kd__vgg13vgg8__cifar100__flip
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --mix_mode crop+flip --project kd__vgg13vgg8__cifar100__cropflip
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --mix_mode cutout --project kd__vgg13vgg8__cifar100__cutout
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --mix_mode autoaugment --project kd__vgg13vgg8__cifar100__autoaugment
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --mix_mode mixup --project kd__vgg13vgg8__cifar100__mixup
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --mix_mode cutmix --project kd__vgg13vgg8__cifar100__cutmix
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --mix_mode cutmix_pick --mix_n_run 2 --cutmix_pick_criterion student_entropy --project kd__vgg13vgg8__cifar100__cutmix_pick_Sentropy
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --mix_mode cutmix_pick --mix_n_run 2 --cutmix_pick_criterion teacher_entropy --project kd__vgg13vgg8__cifar100__cutmix_pick_Tentropy
+
+# (2) Get the T. stddev with KD + different DA's
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --learning_rate 0 --fix_student --utils.ON --utils.check_ce_var --epochs 10 --mix_mode identity --project kd__vgg13vgg8__cifar100__CheckTProbStd_identity 
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --learning_rate 0 --fix_student --utils.ON --utils.check_ce_var --epochs 10 --mix_mode flip --project kd__vgg13vgg8__cifar100__CheckTProbStd_flip
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --learning_rate 0 --fix_student --utils.ON --utils.check_ce_var --epochs 10 --mix_mode crop+flip --project kd__vgg13vgg8__cifar100__CheckTProbStd_cropflip
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --learning_rate 0 --fix_student --utils.ON --utils.check_ce_var --epochs 10 --mix_mode cutout --project kd__vgg13vgg8__cifar100__CheckTProbStd_cutout
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --learning_rate 0 --fix_student --utils.ON --utils.check_ce_var --epochs 10 --mix_mode autoaugment --project kd__vgg13vgg8__cifar100__CheckTProbStd_autoaugment
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --learning_rate 0 --fix_student --utils.ON --utils.check_ce_var --epochs 10 --mix_mode mixup --project kd__vgg13vgg8__cifar100__CheckTProbStd_mixup
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --learning_rate 0 --fix_student --utils.ON --utils.check_ce_var --epochs 10 --mix_mode cutmix --project kd__vgg13vgg8__cifar100__CheckTProbStd_cutmix
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --finetune_student Experiments/*-141344/weights/ckpt.pth --learning_rate 0 --fix_student --utils.ON --utils.check_ce_var --epochs 10 --mix_mode cutmix_pick --mix_n_run 2 --cutmix_pick_criterion student_entropy --project kd__vgg13vgg8__cifar100__CheckTProbStd_cutmix_pick_Sentropy
+
+python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth --distill kd --model_s vgg8 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --learning_rate 0 --fix_student --utils.ON --utils.check_ce_var --epochs 10 --mix_mode cutmix_pick --mix_n_run 2 --cutmix_pick_criterion teacher_entropy --project kd__vgg13vgg8__cifar100__CheckTProbStd_cutmix_pick_Tentropy
 ```
-Meanwhile, note the major results in our paper are Tabs. 3-8, where we document the T. stddev and S. test loss on 9 teacher-student pairs and 9 DA schemes. Each experiment is averaged at least 3 times. **All the logs of these experiments have been released** (only the log txts are released; checkpoints are omitted due to the large size. But if you want any of these checkpoints, feel free to reach out to Huan Wang (wang.huan@northeastern.edu). 
 
-We use [smilelogging](https://github.com/MingSun-Tse/smilelogging) for logging. Each experiment is binded with a unique experiment ID and folder. The easist way to reproduce any experiment is to check the `log.txt` in that experiment folder. Its path is `<experiment_folder>/log/log.txt`. At the head of the `log.txt`, we document the script of that experiment. E.g.,
+#### Check Our Released Experiments
+Meanwhile, note that the major results in our paper are Tabs. 3~8, where we document the T. stddev and S. test loss on 9 teacher-student pairs and 9 DA schemes. Each experiment is averaged at least 3 times. **All the logs of these experiments have been [released]()** (only the log txts are released; checkpoints are omitted due to the large size. But if you want any of these checkpoints, feel free to reach out to Huan Wang (wang.huan@northeastern.edu). 
+
+We use [smilelogging](https://github.com/MingSun-Tse/smilelogging) for logging. Each experiment is binded with a unique experiment ID and folder. The easist way to reproduce any experiment is to check the `log.txt` in that experiment folder. Its path is `<experiment_folder>/log/log.txt`. At the head of the `log.txt`, we document the script of that experiment, e.g.,
 ```
 cd /home3/wanghuan/Projects/KD-DA
 CUDA_VISIBLE_DEVICES=1 python train_student.py --dataset tinyimagenet --path_t ./save/models_tinyimagenet_v2/wrn_40_2_vanilla/ckpt_epoch_240.pth --distill kd --model_s wrn_16_2 -r 0.1 -a 0.9 -b 0 --t_output_as_target_for_input_mix --lw_mix [1,0,1] --learning_rate 0 --fix_student --utils.ON --utils.check_ce_var --epochs 10 --mix_mode mixup --project kd__wrn_40_2wrn_16_2__tinyimagenet__CheckTProbStd_mixup
@@ -86,9 +131,9 @@ By running that script, you should be able to reproduce our results (results may
 
 
 ## Major Experimental Results
-We plot the scatter points of student test loss (S. test loss) vs. our proposed metric (T. stddev). Per our proposition, a lower T. stddev should lead to lower S. test loss, i.e., they should pose *positive correlation*. This is verified in all of these plots -- three kinds of positive correlation coeffcients (Pearson, Spearman, Kendall) are presented with their p-values. The p-values are far below 5%, suggesting **the correlation is rather strong**.
+We plot the scatter points of student test loss (S. test loss) vs. our proposed metric (T. stddev). Per our proposition, a lower T. stddev should lead to lower S. test loss, i.e., they should pose a *positive correlation*. This is verified in all of these plots -- three kinds of positive correlation coeffcients (Pearson, Spearman, Kendall) are reported with their p-values below. The p-values are far below [5%](https://www.wikiwand.com/en/Statistical_significance), suggesting **the correlation is rather strong**. Please refer to [our paper](https://arxiv.org/pdf/2012.02909.pdf) for more results.
 
-<div align="center">
+<p align="center">
     <a><img src="figs/wrn_40_2_wrn_16_2_cifar100.svg"  height="200" ></a>
     <a><img src="figs/resnet56_resnet20_cifar100.svg"  height="200" ></a>
     </br>
@@ -101,9 +146,16 @@ We plot the scatter points of student test loss (S. test loss) vs. our proposed 
     <a><img src="figs/vgg13_vgg8_tinyimagenet.svg"  height="200" ></a>
     <a><img src="figs/ResNet50_vgg8_tinyimagenet.svg"  height="200" ></a>
     </br>
-</div>
+</p>
 
-Please refer to our paper for more results.
+
+
+## Update Log
+### DONE
+* [x] [10/21/2022] Initial code release. Experiment logs uploaded.
+
+### TODO
+* [ ] Remove useless and deprecated code
 
 ## Acknowledgments
 In this code we heavily rely on the wonderful [code of CRD](https://github.com/HobbitLong/RepDistiller). Great thanks to them! We also greatly thank the anounymous NeurIPS'22 reviewers for the constructive comments to help us improve the paper.
