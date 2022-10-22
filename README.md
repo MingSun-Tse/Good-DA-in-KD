@@ -18,11 +18,11 @@ This repository is for our NeurIPS 2022 paper:
 <details open>
 <summary><b>[TL;DR]</b></summary>
 
-- We present a *proven proposition* to precisely answer "*What makes a good data augmentation (DA) in knowledge distillation (KD)?*": A good DA should reduce the covariance of the teacher-student cross-entropy.
-- We present a practical metric that only needs the teacher to measure the "goodness" of a DA in KD: the *stddev of teacher’s mean probability*
+- We present a proven proposition to precisely answer "*What makes a good data augmentation (DA) in knowledge distillation (KD)?*": A good DA should reduce the covariance of the teacher-student cross-entropy.
+- We present a practical metric that only needs the teacher to measure the "goodness" of a DA in KD: the **stddev of teacher’s mean probability**
 (shorted as **T. stddev**).
 - Interestingly, T. stddev works very well in practice (on CIFAR100 and Tiny ImageNet), posing a *strong correlation* with student’s test loss, despite knowing *nothing* about the student -- see the right figure below.
-- Based on the theory, we further propose an entropy-based data picking algorithm that can further boost prior SOTA DA scheme (CutMix) in KD, resulting in a new strong DA method, *CutMixPick*.
+- Based on the theory, we further propose an entropy-based data picking algorithm that can further boost prior SOTA DA scheme (CutMix) in KD, resulting in a new strong DA method, CutMixPick.
 - Finally, we show how the theory can be utilized in practice to harvest
 considerable performance gains simply by using a stronger DA with prolonged training epochs.
 
@@ -118,7 +118,7 @@ python train_student.py --path_t ./save/models/vgg13_vanilla/ckpt_epoch_240.pth 
 ```
 
 #### Check Our Released Experiments
-Meanwhile, note that the major results in our paper are Tabs. 3~8, where we document the T. stddev and S. test loss on 9 teacher-student pairs and 9 DA schemes. Each experiment is averaged at least 3 times. **All the logs of these experiments have been [released](https://github.com/MingSun-Tse/Good-DA-in-KD/releases/download/v0.2/Experiments_Release.zip)** (only the log txts are released; checkpoints are omitted due to the large size. But if you want any of these checkpoints, feel free to reach out to Huan Wang at wang.huan@northeastern.edu).
+Meanwhile, note that the major results in our paper are Tabs. 3~8, where we document the T. stddev and S. test loss on 9 teacher-student pairs and 9 DA schemes. Each experiment is averaged at least 3 times. **All the logs of these experiments have been [released](https://github.com/MingSun-Tse/Good-DA-in-KD/releases/download/v0.2)** (only the log txts are released; checkpoints are omitted due to the large size. But if you want any of these checkpoints, feel free to reach out to Huan Wang at wang.huan@northeastern.edu).
 
 We use [smilelogging](https://github.com/MingSun-Tse/smilelogging) for logging. Each experiment is binded with a unique experiment ID and folder. The easist way to reproduce any experiment is to check the `log.txt` in that experiment folder. Its path is `<experiment_folder>/log/log.txt`. At the head of the `log.txt`, we document the script of that experiment, e.g.,
 ```
