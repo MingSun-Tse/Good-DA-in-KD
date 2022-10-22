@@ -35,7 +35,7 @@ considerable performance gains simply by using a stronger DA with prolonged trai
 </div>
 
 <details open>
-<summary><b>Supported Data Augmentation Methods</b></summary>
+<summary><b>Supported 9 Data Augmentation Methods</b></summary>
 
 * [x] Identity
 * [x] Flip
@@ -63,9 +63,11 @@ cd Good-DA-in-KD
 sh scripts/set_up_pretrained_models.sh
 ```
 
-### 2. Set up environment with Anaconda (We use torch 1.9.0, torchvision 0.10.0)
+### 2. Set up environment with Anaconda
+We use python 3.9.6 and pytorch 1.9.0. All the dependecies are summarized in `requirements.txt`. Create a conda env named `Good-DA-in-KD_Py3.9.6` and enter it:
 ```bash
-sh scripts/set_up_env.sh
+sh scripts/set_up_env.sh Good-DA-in-KD 3.9.6 requirements.txt
+conda activate --no-stack Good-DA-in-KD_Py3.9.6
 ```
 
 ### 3. Run
