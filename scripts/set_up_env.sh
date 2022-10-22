@@ -11,7 +11,7 @@ REQ=$3 # requirements.txt
 eval "$(command conda 'shell.bash' 'hook' 2> /dev/null)"
 
 # ACT="source $HOME/anaconda3/bin/activate" 
-ACT="conda activate"
+ACT="conda activate --no-stack "
 
 # If in ipython, exit the ipython env first
 echo "==> Anaconda path: $(which conda)"
