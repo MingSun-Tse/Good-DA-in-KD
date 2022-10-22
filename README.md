@@ -162,13 +162,20 @@ In this code we heavily rely on the wonderful [code of CRD](https://github.com/H
 
 ## Reference
 
-If our work or code helps you, please consider to cite our paper. Thank you!
+If our work or code helps you, please consider citing our paper and Tian's CRD paper (since our code builds upon theirs). Thank you!
 ```BibTeX
 @inproceedings{wang2022what,
   author = {Huan Wang and Suhas Lohit and Michael Jones and Yun Fu},
   title = {What Makes a "Good" Data Augmentation in Knowledge Distillation -- A Statistical Perspective},
   booktitle = {NeurIPS},
   year = {2022}
+}
+
+@inproceedings{tian2019crd,
+  title = {Contrastive Representation Distillation},
+  author = {Yonglong Tian and Dilip Krishnan and Phillip Isola},
+  booktitle = {ICLR},
+  year = {2020}
 }
 ```
 
