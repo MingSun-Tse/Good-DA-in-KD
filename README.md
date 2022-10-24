@@ -62,8 +62,8 @@ considerable performance gains simply by using a stronger DA with prolonged trai
 
 
 ### 0. Download the code
-```
-git clone git@mingsun-tse.com/Good-DA-in-KD.git
+```bash
+git clone git@github.com:MingSun-Tse/Good-DA-in-KD.git
 cd Good-DA-in-KD
 ```
 
