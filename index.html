@@ -55,26 +55,27 @@
             <h1 class="title is-1 publication-title">What Makes a "Good" Data Augmentation in Knowledge Distillation -- A Statistical Perspective</h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
-                <a href="https://huanwang.tech">Huan Wang</a><sup>1,2,*</sup>,</span>
-              <span class="author-block">
-                <a href="https://suhaslohit.github.io/">Suhas Lohit</a><sup>2</sup>,</span>
-              <span class="author-block">
-                <a href="https://www.merl.com/people/mjones">Mike Jones</a><sup>2</sup>,
+                <a href="https://huanwang.tech">Huan Wang</a><sup>1,2,&dagger;</sup>&#8192;
               </span>
               <span class="author-block">
-                <a href="http://www1.ece.neu.edu/~yunfu/">Yun Fu</a><sup>1</sup>,
+                <a href="https://suhaslohit.github.io/">Suhas Lohit</a><sup>2,&ast;</sup>&#8192;
+              </span>
+              <span class="author-block">
+                <a href="https://www.merl.com/people/mjones">Mike Jones</a><sup>2</sup>&#8192;
+              </span>
+              <span class="author-block">
+                <a href="http://www1.ece.neu.edu/~yunfu/">Yun Fu</a><sup>1</sup>
               </span>
             </div>
             <h1 style="font-size:23px;font-weight:bold">NeurIPS 2022</h1>
 
             <div class="is-size-5 publication-authors">
-              <span class="author-block"><sup>1</sup>Northeastern University</span>
-              <span class="author-block"><sup>2</sup>MERL</span>
+              <span><sup>1</sup>Northeastern University, Boston, MA&#8192;</span>
+              <span><sup>2</sup>MERL, Cambridge, MA</span>
             </div>
 
-            <div class="is-size-5 publication-authors">
-              <span class="author-block">(<sup>*</sup>Work done when Huan was an intern at MERL)</span>
-              <span class="author-block">(<sup>&dagger;</sup>Corresponding author: slohit@merl.com)</span>
+            <div style="font-size:15px">
+              <span><sup>&dagger;</sup>Work done when Huan was an intern at MERL&#8192;<sup>&ast;</sup>Corresponding author: slohit@merl.com</span></br>
             </div>
 
             <div class="column has-text-centered">
@@ -86,7 +87,7 @@
                     <span class="icon">
                       <i class="fas fa-file-pdf"></i>
                     </span>
-                    <span>Paper</span>
+                    <span>PDF</span>
                   </a>
                 </span>
                 <span class="link-block">
@@ -119,9 +120,16 @@
   <section class="hero teaser">
     <div class="container is-max-desktop">
       <div class="hero-body">
-        <div align="center"> <img src="static/images/overview.svg" width="750px"> </div>
-        <div class="content has-text-centered">
-          We study the question what makes a good data augmentation (DA) in knowledge distillation (KD). A proposition from a statistical perspective is proposed, suggesting that a good DA should minimize the stddev of the teacher's mean probability. Per the proposition, a metric to measure the "goodness" of DA is introduced, which works well empirically.
+        <div align='center'>
+          <a><img src="figs/frontpage_overview.svg"  height="200" ></a>
+          <a><img src="figs/wrn_40_2_wrn_16_2_cifar100.svg"  height="200" ></a>
+        </div>
+        <div class="content has-text-justified">
+          We present a proven proposition to precisely answer <i>"What makes a good data augmentation (DA) in knowledge distillation (KD)?"</i>: A good DA should reduce the covariance of the teacher-student cross-entropy.
+          We present a practical metric that only needs the teacher to measure the goodness of a DA in KD: the <b>stddev of teacher’s mean probability</b> (shorted as <b>T. stddev</b>).
+          <mark>Interestingly, T. stddev poses a <u>strong positive correlation</u> (note the p-values are far below <a href="https://www.wikiwand.com/en/Statistical_significance">5%</a>) with student’s test loss (S. test loss) on CIFAR100 and Tiny ImageNet (see the right figure above), despite knowing <u>nothing</u> about the student, implying the goodness of a DA in KD is probably student-invariant.</mark>
+          Based on the theory, we further propose an entropy-based data picking algorithm that can further boost prior SOTA DA scheme (CutMix) in KD, resulting in a new strong DA method, <b>CutMixPick</b>.
+          Finally, we show how the theory can be utilized in practice to harvest considerable performance gains simply by using a stronger DA with prolonged training epochs.
         </div>
       </div>
     </div>
@@ -134,11 +142,10 @@
         <div class="column is-four-fifths">
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
-            Knowledge distillation (KD) is a general neural network training approach that uses a teacher to guide a student. Existing works mainly study KD from the network output side (e.g., how to design a better KD loss function), while few have attempted to understand it from the input side. Especially, its interplay with data augmentation (DA) has not been well understood. In this paper, we ask: Why do some DA schemes (e.g., CutMix) inherently perform much better than others in KD? What characterizes a “good” DA in KD? Our investigation from a statistical perspective suggests that a good DA scheme should reduce the variance of the teacher’s mean probability, which will eventually lead to a lower generalization error gap for the student. Besides the theoretical understanding, we also propose a new entropy-based data-mixing DA scheme to enhance CutMix. Extensive empirical studies support our claims and demonstrate how we can harvest considerable performance gains simply by using a better DA scheme in distillation.
+            Knowledge distillation (KD) is a general neural network training approach that uses a teacher to guide a student. Existing works mainly study KD from the network output side (e.g., trying to design a better KD loss function), while few have attempted to understand it from the input side. Especially, its interplay with data augmentation (DA) has not been well understood. In this paper, we ask: Why do some DA schemes (e.g., CutMix) inherently perform much better than others in KD? What makes a “good” DA in KD? Our investigation from a statistical perspective suggests that a good DA scheme should reduce the variance of the teacher’s mean probability, which will eventually lead to a lower generalization gap for the student. Besides the theoretical understanding, we also introduce a new entropy-based data-mixing DA scheme to enhance CutMix. Extensive empirical studies support our claims and demonstrate how we can harvest considerable performance gains simply by using a better DA scheme in knowledge distillation.
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -149,30 +156,60 @@
         <div class="column is-full-width">
 
           <!-- NeRF results: Blender -->
-          <!-- <h2 class="title is-3">1. Visual Comparison on NeRF Synthetic and Realistic Datasets</h2>
-          <p>(You may pause the video to review the difference between NeRF and ours)</p>
+          <h2 class="title is-3" align='center'>Correlation Results on CIFAR100 & Tiny ImageNet</h2>
 
-          <div class="content has-text-centered">
-            <video class="video-fluid w-100" controls autoplay loop muted>
-              <source src="static/videos/NeRF/blender_chair.mp4" type="video/mp4" />
-            </video>
-            <p>Scene: Chair (Blender). Left: NeRF (PSNR: 33.90), Right: Ours (PSNR: 36.71)</p>
-          </div> -->
+          <p align="center">
+            <a><img src="figs/wrn_40_2_wrn_16_2_cifar100.svg"  height="200" ></a>
+            <a><img src="figs/resnet56_resnet20_cifar100.svg"  height="200" ></a>
+            </br>
+            <a><img src="figs/vgg13_vgg8_cifar100.svg"  height="200" ></a>
+            <a><img src="figs/ResNet50_vgg8_cifar100.svg"  height="200" ></a>
+            </br>
+            <a><img src="figs/wrn_40_2_wrn_16_2_tinyimagenet.svg"  height="200" ></a>
+            <a><img src="figs/resnet56_resnet20_tinyimagenet.svg"  height="200" ></a>
+            </br>
+            <a><img src="figs/vgg13_vgg8_tinyimagenet.svg"  height="200" ></a>
+            <a><img src="figs/ResNet50_vgg8_tinyimagenet.svg"  height="200" ></a>
+            </br>
+          </p>
 
+          <h2 class="title is-3" align='center'>Correlation Results on ImageNet100</h2>
+          ImageNet100 is a 100-class subset randomly drawn from the full ImageNet-1K dataset. The correlation turns weaker (compared to CIFAR100 and Tiny ImageNet) generally speaking, due to the fact that ImageNet100 is essentially more challenging than CIFAR100 and Tiny ImageNet. But still, suggested by the p-values, the correlation is fairly strong. This means the effectiveness of our metric can generalize to the standard 224x224 RGB images.
+
+          <p align="center">
+            <a><img src="figs/resnet34_resnet18_imagenet100.svg"  height="200" ></a>
+          </p>
+
+          <h2 class="title is-3" align='center'>Correlation Results on ImageNet</h2>
+          The results on ImageNet are not very much aligned with our expectation, as the correlation between S. test loss and T. stddev below is not statistically significant. We don't know why for now (presumbly think it might be related to the number of classes of the dataset). We consider this as a limitation of this work and shall explore it in the future version.
+          <p align="center">
+            <a><img src="figs/resnet34_resnet18_imagenet.svg"  height="200" ></a>
+          </p>
+
+          <h2 class="title is-3" align='center'>Boosting KD via Stronger KD + More Epochs (CIFAR100 and Tiny ImageNet)</h2>
+          As shown below, compared to the original KD results, we can harvest considerable performance gains simply by using a stronger DA (CutMix and our proposed CutMixPick) with more training epochs.
+          <br /> <br />
+          <p align="center">
+            <a><img src="figs/boosting_kd.svg"  width="700" ></a>
+          </p>
         </div>
       </div>
     </div>
   </section>
 
+
+
+
+
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
       <pre><code>@inproceedings{wang2022what,
-          author = {Huan Wang and Suhas Lohit and Michael Jones and Yun Fu},
-          title = {What Makes a "Good" Data Augmentation in Knowledge Distillation -- A Statistical Perspective},
-          booktitle = {NeurIPS},
-          year = {2022}
-        }</code></pre>
+    author = {Huan Wang and Suhas Lohit and Mike Jones and Yun Fu},
+    title = {What Makes a "Good" Data Augmentation in Knowledge Distillation -- A Statistical Perspective},
+    booktitle = {NeurIPS},
+    year = {2022},
+}</code></pre>
     </div>
   </section>
 
