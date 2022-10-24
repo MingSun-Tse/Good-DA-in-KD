@@ -1,4 +1,4 @@
-# Good-DA-in-KD [NeurIPS 2022]
+# Good-DA-in-KD [NeurIPS 2022] ![visitors](https://visitor-badge.glitch.me/badge?page_id=mingsun-tse/Good-DA-in-KD)
 
 ### [Project](https://mingsun-tse.github.io/Good-DA-in-KD/) | [ArXiv](https://arxiv.org/abs/2012.02909) | [PDF](https://arxiv.org/pdf/2012.02909.pdf) | [Slides](https://mingsun-tse.github.io/files/Wang_etal_NeurIPS22_Good_DA_in_KD.pdf) | [Experiment Logs](https://github.com/MingSun-Tse/Good-DA-in-KD/releases/tag/v0.2)
 
