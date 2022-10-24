@@ -1,6 +1,15 @@
-# Good-DA-in-KD [NeurIPS 2022] ![visitors](https://visitor-badge.glitch.me/badge?page_id=mingsun-tse/Good-DA-in-KD)
+# Good-DA-in-KD [NeurIPS 2022]
 
-### [Project](https://mingsun-tse.github.io/Good-DA-in-KD/) | [ArXiv](https://arxiv.org/abs/2012.02909) | [PDF](https://arxiv.org/pdf/2012.02909.pdf) | [Slides](https://mingsun-tse.github.io/files/Wang_etal_NeurIPS22_Good_DA_in_KD.pdf) | [Experiment Logs](https://github.com/MingSun-Tse/Good-DA-in-KD/releases/tag/v0.2)
+<!-- ### [Project](https://mingsun-tse.github.io/Good-DA-in-KD/) | [ArXiv](https://arxiv.org/abs/2012.02909) | [PDF](https://arxiv.org/pdf/2012.02909.pdf) | [Slides](https://mingsun-tse.github.io/files/Wang_etal_NeurIPS22_Good_DA_in_KD.pdf) | [Experiment Logs](https://github.com/MingSun-Tse/Good-DA-in-KD/releases/tag/v0.2) 
+-->
+
+[![project](https://img.shields.io/badge/Good--DA--in--KD-Project-179bd3)](https://mingsun-tse.github.io/Good-DA-in-KD/)
+[![arxiv](https://img.shields.io/badge/Good--DA--in--KD-Arxiv-179bd3)](https://arxiv.org/abs/2012.02909)
+[![pdf](https://img.shields.io/badge/Good--DA--in--KD-PDF-179bd3)](https://arxiv.org/pdf/2012.02909.pdf)
+[![slides](https://img.shields.io/badge/Good--DA--in--KD-Slides-179bd3)](https://mingsun-tse.github.io/files/Wang_etal_NeurIPS22_Good_DA_in_KD.pdf)
+[![video](https://img.shields.io/badge/Good--DA--in--KD-Video-179bd3)](https://recorder-v3.slideslive.com/#/share?share=75571&s=060fc5e6-3c49-47d7-aabe-32cc407fd760)
+[![logs](https://img.shields.io/badge/Good--DA--in--KD-Experiment%20Logs-179bd3)](https://github.com/MingSun-Tse/Good-DA-in-KD/releases/tag/v0.2)
+[![visitors](https://visitor-badge.glitch.me/badge?page_id=mingsun-tse/Good-DA-in-KD)](https://github.com/MingSun-Tse/Good-DA-in-KD)
 
 <p align="center">
     <img src="https://github.com/MingSun-Tse/mingsun-tse.github.io/blob/master/files/neu_logo.svg"  height="120px" >
