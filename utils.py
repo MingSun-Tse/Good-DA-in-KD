@@ -3,16 +3,13 @@ import torch.nn as nn
 import torch.nn.init as init
 from torch.utils.data import Dataset
 import torch.nn.functional as F
-import torchvision
 from torch.autograd import Variable
-from pprint import pprint
-import time, math, os, sys, copy, numpy as np, shutil as sh
-import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1 import make_axes_locatable
+import time, os, copy, numpy as np
 from collections import OrderedDict
 import glob
-from PIL import Image
 import pickle
+import subprocess
+import functools
 
 def _weights_init(m):
     if isinstance(m, (nn.Conv2d, nn.Linear)):
@@ -302,7 +299,7 @@ class PresetLRScheduler(object):
 
         # decay_schedule is a dictionary
         # which is for specifying iteration -> lr
-        self.decay_schedule = {}
+        self.decay_schedule = OrderedDict()
         for k, v in decay_schedule.items(): # a dict, example: {"0":0.001, "30":0.00001, "45":0.000001}
             self.decay_schedule[int(float(k))] = v # to float first in case of '1e3'
         # print('Using a preset learning rate schedule:')
@@ -370,7 +367,7 @@ def strdict_to_dict(sstr, ttype=float):
     """
     if not sstr:
         return sstr
-    out = {}
+    out = OrderedDict()
     sstr = sstr.strip()
     if sstr.startswith('{') and sstr.endswith('}'):
         sstr = sstr[1:-1]
@@ -1254,16 +1251,12 @@ def isfloat(num):
     except ValueError:
         return False
 
-def smooth(x, window=50):
-    r"""Smooth a list
+def moving_average(x, N=10):
+    r"""Refer to: https://stackoverflow.com/questions/13728392/moving-average-or-running-mean
     """
-    out = []
-    for i in range(len(x)):
-        if i < window:
-            out += [np.mean(x[:i])]
-        else:
-            out += [np.mean(x[i-window : i])]
-    return out
+    import scipy.ndimage as ndi
+    return ndi.uniform_filter1d(x, N, mode='constant', origin=-(N//2))[:-(N-1)]
+smooth = moving_average # To maintain back-compatibility
 
 def get_exp_name_id(exp_path):
     r"""arg example: Experiments/kd-vgg13vgg8-cifar100-Temp40_SERVER5-20200727-220318
@@ -1279,3 +1272,65 @@ def get_exp_name_id(exp_path):
             exp_name = s.split('_SERVER')[0]
             date = s.split('-')[-2]
             return ExpID, exp_id, exp_name, date
+
+def get_script_from_log(log_path, max_lines=10):
+    r"""Get the script from a log txt file.
+    """
+    cnt = 0
+    for line in open(log_path):
+        cnt += 1
+        line = line.strip()
+        if line.startswith('CUDA_VISIBLE_DEVICES='):
+            return line
+        if cnt == max_lines:
+            return None
+
+def run_shell_command(cmd, inarg=None):
+    r"""Run shell command and return the output (string) in a list
+    """
+    cmd = ' '.join(cmd.split())
+    if ' | ' in cmd: # Refer to: https://stackoverflow.com/a/13332300/12554945
+        cmds = cmd.split(' | ')
+        assert len(cmds) == 2, "Only support one pipe now"
+        fn = subprocess.Popen(cmds[0].split(), stdout=subprocess.PIPE)
+        result = subprocess.run(cmds[1].split(), stdin=fn.stdout, stdout=subprocess.PIPE)
+    else:
+        result = subprocess.run(cmd.split(), stdout=subprocess.PIPE)
+    return result.stdout.decode('utf-8').strip().split('\n')
+
+def print_runtime(fn):
+    r"""Print the running time of a routine.
+    """
+    @functools.wraps(fn)
+    def wrapper(*args, **kw):
+        t0 = time.time()
+        ret = fn(*args, **kw)
+        t1 = time.time()
+        print(f'( "{fn.__name__}" executed in {t1 - t0:.4f}s )')
+        return ret
+    return wrapper
+
+def get_arg(args, key):
+    return args.__dict__.get(key)
+
+def scp_experiment(scp_script, logger, args, mv=False):
+    userip = logger.userip
+    ExpID = logger.ExpID
+    experiments_dir = args.experiments_dir
+    exp_name = args.experiment_name if hasattr(args, 'experiment_name') else args.project_name
+    
+    lines = open(scp_script).readlines()
+    for line in lines:
+        if ' scp ' in line and '@' in line:
+            break
+    for i in line.strip().split():
+        if '@' in i and ':' in i:
+            hub_userip = i.split(':')[0]
+            break
+    if userip != hub_userip:
+        script = f'sh {scp_script} {experiments_dir} {exp_name}_{ExpID}'
+        os.system(script)
+        if mv:
+            if not os.path.exists(f'{experiments_dir}/Trash'):
+                os.makedirs(f'{experiments_dir}/Trash')
+            os.system(f'mv {experiments_dir}/{exp_name}_{ExpID} {experiments_dir}/Trash')

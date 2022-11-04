@@ -551,15 +551,14 @@ def main():
     
 if __name__ == '__main__':
     # Scp results
-    if logger.userip != 'wanghuan@155.33.198.138':
-        scp = f'sh scripts/scp_experiments.sh {opt.project_name}_{logger.ExpID}'
-        os.system(scp)
+    scp_script = 'scripts/scp_experiments_to_hub.sh'
+    if not opt.debug and os.path.exists(scp_script):
+        from smilelogging.utils import scp_experiment
+        scp_experiment(scp_script, logger, opt, mv=False)
         print('==> Initial scp done')
     main()
     # Scp results
-    if logger.userip != 'wanghuan@155.33.198.138':
-        scp = f'sh scripts/scp_experiments.sh {opt.project_name}_{logger.ExpID}'
-        os.system(scp)
+    if not opt.debug and os.path.exists(scp_script):
+        from smilelogging.utils import scp_experiment
+        scp_experiment(scp_script, logger, opt, mv=True)
         print('==> Final scp done')
-        os.system(f'mv Experiments/{opt.project_name}_{logger.ExpID} Experiments/SCPED_{opt.project_name}_{logger.ExpID}')
-    
